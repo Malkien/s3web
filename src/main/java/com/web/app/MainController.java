@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -19,12 +21,15 @@ public class MainController {
         return "index";
     }
     @PostMapping("/create")
-    public ResponseEntity<String> create(String name, @RequestParam("image") MultipartFile image){
+    public ResponseEntity<String> create(String name, @RequestParam("file") MultipartFile image){
+        String publicURL;
         if(name == null){
-            S3Util.uploadFile(image.getName(), image);
+            publicURL = S3Util.uploadFile(image.getName(), image);
         }else{
-            S3Util.uploadFile(name, image);
+            publicURL = S3Util.uploadFile(name, image);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        Map<String, String> response = new HashMap<>();
+        response.put("publicURL", publicURL);
+        return new ResponseEntity<String>(HttpStatus.CREATED);
     }
 }
