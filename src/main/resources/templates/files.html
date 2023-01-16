@@ -32,9 +32,9 @@
                     <tbody>
                     <tr th:each="file : ${files}">
                         <td>[[${file.key}]]</td>
-                        <td><a th:href="@{${file.url}}">Download</a></td>
+                        <td><a th:href="@{${file.key}}">Download</a></td>
                         <td>
-                            <a th:href="@{'/files/delete/' + ${file.name}}" th:fileName="${file.key}" id="btnDelete"
+                            <a th:href="@{'/files/delete/' + ${file.name}}" th:fileKey="${file.key}" id="btnDelete"
                                title="Delete this file" class="fa-regular fa-trash-can icon-dark btn-delete"></a>
                         </td>
                     </tr>
