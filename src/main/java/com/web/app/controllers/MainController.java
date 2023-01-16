@@ -2,6 +2,7 @@ package com.web.app.controllers;
 
 import com.web.app.utils.S3Util;
 import com.web.app.hadlers.ResponseMessage;
+import org.springframework.boot.logging.LogFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,8 @@ public class MainController {
             publicURL = S3Util.uploadFile(image.getName(), image);
             model.addAttribute("message", "Upload sucessful: "+publicURL);
         } catch (Exception e) {
-            model.addAttribute("message","Upload unsuccesfull");
+
+            model.addAttribute("message","Upload unsuccesfull\n"+e.getMessage());
         }
         return "upload_form";
     }
