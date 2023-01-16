@@ -34,4 +34,10 @@ public class MainController {
         return "upload_form";
     }
 
+    @GetMapping("/files")
+    public String getListFiles(Model model) {
+        
+
+        return "files";
+    }
 }
