@@ -1,4 +1,4 @@
-package com.web.app;
+package com.web.app.utils;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

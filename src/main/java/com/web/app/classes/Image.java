@@ -1,4 +1,4 @@
-package com.web.app;
+package com.web.app.classes;
 
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
