@@ -26,7 +26,6 @@ public class S3Util {
             s3.putObject(new PutObjectRequest(BUCKET_NAME, name, file.getInputStream(), metadata));
         }catch (AmazonServiceException e){
             System.err.println(e.getErrorMessage());
-            System.exit(1);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
