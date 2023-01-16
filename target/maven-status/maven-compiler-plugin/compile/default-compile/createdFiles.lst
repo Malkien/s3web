@@ -1,0 +1,4 @@
+com/web/app/AppApplication.class
+com/web/app/Image.class
+com/web/app/MainController.class
+com/web/app/S3Util.class
