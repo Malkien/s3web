@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MainController {
     @GetMapping("/")
     public String showIndex(){
-        return "redirect:/files";
+        return "redirect:/upload_form";
     }
     @GetMapping("files/new")
     public String newFile(Model model){
@@ -36,7 +36,7 @@ public class MainController {
 
     @GetMapping("/files")
     public String getListFiles(Model model) {
-        
+
 
         return "files";
     }
