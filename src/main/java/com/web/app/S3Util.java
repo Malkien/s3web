@@ -21,7 +21,7 @@ public class S3Util {
         try{
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentLength(file.getSize());
-            s3.putObject(BUCKET_NAME, name, file.getInputStream(), metadata);
+            s3.putObject(new PutObjectRequest(BUCKET_NAME, name, file.getInputStream(), metadata));
         }catch (AmazonServiceException e){
             System.err.println(e.getErrorMessage());
             System.exit(1);

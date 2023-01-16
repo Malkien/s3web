@@ -6,12 +6,12 @@
 <body>
     <div align="center">
         <div style="">
-            <form action="create" method="post">
+            <form action="/create" enctype="multipart/form-data" method="POST">
                 <div>
                     <h2>Create</h2>
                     <p>Name of the image in the cloud</p><input type="text" placeholder="Blank get the image name">
                     <p>Choose an image</p>
-                    <input type="file" accept="image/*" name="image" required />
+                    <input type="file" accept="image/*" name="image" id="image" required />
                     <button type="submit">CREATE</button>
                 </div>
             </form>
