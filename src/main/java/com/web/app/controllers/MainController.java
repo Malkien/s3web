@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.model.S3Object;
+
+import java.util.List;
 
 
 @Controller
 public class MainController {
     @GetMapping("/")
     public String showIndex(){
-        return "redirect:/files/upload";
+        return "redirect:/files";
     }
     @GetMapping("files/new")
     public String newFile(Model model){
@@ -36,8 +39,8 @@ public class MainController {
 
     @GetMapping("/files")
     public String getListFiles(Model model) {
-
-
+        List<S3Object> s3Objects = S3Util.listFile();
+        model.addAttribute("files", s3Objects);
         return "files";
     }
 }
