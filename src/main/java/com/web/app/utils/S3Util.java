@@ -26,7 +26,7 @@ public class S3Util {
     private static final String BUCKET_NAME = "my-bucket-practice";
     private static final S3Client s3= S3Client.builder().credentialsProvider(InstanceProfileCredentialsProvider.builder().build()).build();
     private static final S3TransferManager transferManager = S3TransferManager.create();
-    public static String uploadFile(String key, MultipartFile file){
+    public static String uploadFile(String key, MultipartFile file) throws RuntimeException{
         try{
             PutObjectRequest objectRequest = PutObjectRequest.builder()
                     .bucket(BUCKET_NAME)

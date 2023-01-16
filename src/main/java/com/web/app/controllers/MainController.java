@@ -30,11 +30,13 @@ public class MainController {
     public String uploadFile(Model model, @RequestParam("file") MultipartFile image){
         String publicURL;
         try{
-            publicURL = S3Util.uploadFile(image.getName(), image);
+            publicURL = S3Util.uploadFile(image.getOriginalFilename(), image);
             model.addAttribute("message", "Upload sucessful: "+publicURL);
-        } catch (Exception e) {
-
+        } catch (RuntimeException e) {
             model.addAttribute("message","Upload unsuccesfull\n"+e.getMessage());
+        } catch (Exception ex){
+
+            model.addAttribute("message","Upload unsuccesfull\n"+ex.getMessage());
         }
         return "upload_form";
     }
