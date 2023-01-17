@@ -62,6 +62,24 @@
 			<artifactId>aws-crt</artifactId>
 			<version>0.21.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/rds -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>rdsdata</artifactId>
+			<version>2.19.17</version>
+		</dependency>
+		<dependency>
+		<groupId>software.amazon.awssdk</groupId>
+		<artifactId>rds</artifactId>
+		<version>2.19.17</version>
+	</dependency>
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.31</version>
+		</dependency>
+
 
 
 	</dependencies>
