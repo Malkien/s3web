@@ -20,6 +20,8 @@ public class RDSUtils {
     private static final String HOSTNAME = "my-ddbb-practice.cger0yceks3s.eu-west-3.rds.amazonaws.com";
     private static final int PORT = 3306;
     private static final String USERNAME = "admin";
+    private static final String DATABASE = "images";
+
     private RdsClient rdsClient = RdsClient.builder()
             .region(REGION)
             .credentialsProvider(ProfileCredentialsProvider.create())
@@ -48,7 +50,7 @@ public class RDSUtils {
 
 
     private RDSUtils() {
-        url = "jdbc:mysql://"+HOSTNAME+">:"+PORT+"/mydb?useSSL=false";
+        url = "jdbc:mysql://"+HOSTNAME+">:"+PORT+"/"+DATABASE+"?useSSL=false";
     }
 
 
@@ -57,7 +59,7 @@ public class RDSUtils {
             instance = new RDSUtils();
         }
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
+            Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
             return DriverManager.getConnection(instance.url, USERNAME,instance.getAuthToken());
 
         } catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
