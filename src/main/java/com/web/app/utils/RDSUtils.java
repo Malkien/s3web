@@ -21,7 +21,7 @@ public class RDSUtils {
     private static final String DB_USER = "admin";
     private static final String DATABASE = "images";
     private static final int RDS_INSTANCE_PORT = 3306;
-    private static final String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT;
+    private static final String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/" + DATABASE;
 
 
 
