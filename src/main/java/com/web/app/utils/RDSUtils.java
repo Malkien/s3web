@@ -26,7 +26,6 @@ public class RDSUtils {
 
     private static RdsClient rdsClient = RdsClient.builder()
             .region(REGION_NAME)
-            .credentialsProvider(ProfileCredentialsProvider.create())
             .build();
 
 
