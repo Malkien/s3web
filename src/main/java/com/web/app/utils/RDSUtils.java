@@ -90,7 +90,7 @@ public class RDSUtils {
         PreparedStatement prepareStatement = null;
         try {
             connection = getDBConnectionUsingIam();
-            String sql = "INSERT INTO "+DATABASE+" (key, metadada) VALUES (?,?)";
+            String sql = "INSERT INTO `"+DATABASE+"` VALUES (?,?)";
             prepareStatement = connection.prepareStatement(sql);
             prepareStatement.setString(1, key);
             prepareStatement.setBlob(2, file);
