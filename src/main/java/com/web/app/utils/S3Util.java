@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class S3Util {
@@ -20,23 +21,42 @@ public class S3Util {
 
     public static String uploadFile(String key, MultipartFile file) throws RuntimeException{
         try{
-            RDSUtils.insertData(key, file.getInputStream());
 
+            RDSUtils.insertData(key, file.getInputStream());
             PutObjectRequest objectRequest = PutObjectRequest.builder()
                     .bucket(BUCKET_NAME)
                     .key(key)
                     .build();
 
-            s3.putObject(objectRequest, RequestBody.fromInputStream(file.getInputStream(),file.getSize()));
+            s3.putObject(objectRequest, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
-            // if you want to get all the metadata from the s3 object
-            // HeadObjectRequest headObjectRequest= HeadObjectRequest.builder().bucket(BUCKET_NAME).key(key).build();
-            // Map<String, String> headObjectResponse= s3.headObject(headObjectRequest).metadata();
+            //HeadObjectRequest headObjectRequest = HeadObjectRequest.builder()
+            //        .bucket(BUCKET_NAME)
+            //        .key(key)
+            //        .build();
+            //HeadObjectResponse headObjectResponse = s3.headObject(headObjectRequest);
+            //Map<String, String> metadata = headObjectResponse.metadata();
+            //RDSUtils.insertData(key, headObjectResponse.metadata());
             return "Image Upload";
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }finally {
+
         }
+    }
+
+    public static boolean deleteFile(S3Object file){
+        DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+                .bucket(BUCKET_NAME)
+                .key(file.key())
+                .build();
+
+        s3.deleteObject(deleteObjectRequest);
+        if(!RDSUtils.delete(file.key())){
+            return false;
+        }
+        return true;
     }
 
     public static List<S3Object> listFile(){
@@ -46,6 +66,7 @@ public class S3Util {
                     .bucket(BUCKET_NAME)
                     .build();
             ListObjectsResponse res = s3.listObjects(listObjects);
+
             return res.contents();
         } catch (AwsServiceException e) {
             throw new RuntimeException(e);

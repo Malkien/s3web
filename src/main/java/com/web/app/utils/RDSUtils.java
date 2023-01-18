@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.rds.model.RdsException;
 
 import java.io.InputStream;
 import java.sql.*;
+import java.util.Map;
 
 public class RDSUtils {
 
@@ -101,25 +102,36 @@ public class RDSUtils {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        /*finally {
+        finally {
             try {
                 connection.close();
                 prepareStatement.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        }*/
-    }
-
-    public static void close(Connection connection) {
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+    }
+    public static boolean delete(String key){
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = getDBConnectionUsingIam();
+            String sql = "DELETE FROM images WHERE key = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, key);
+            preparedStatement.execute();
+        } catch (Exception e) {
+            return false;
+        }finally {
+            try {
+                connection.close();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return true;
     }
 
 }
