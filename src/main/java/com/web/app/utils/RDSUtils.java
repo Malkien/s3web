@@ -1,8 +1,6 @@
 package com.web.app.utils;
 
-import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rds.RdsClient;
 import software.amazon.awssdk.services.rds.RdsUtilities;
@@ -11,7 +9,6 @@ import software.amazon.awssdk.services.rds.model.RdsException;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.util.Properties;
 
 public class RDSUtils {
 
@@ -26,10 +23,7 @@ public class RDSUtils {
     private static final int RDS_INSTANCE_PORT = 3306;
     private static final String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT;
 
-    private static RdsClient rdsClient = RdsClient.builder()
-            .region(REGION_NAME)
-            .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
-            .build();
+
 
 
     /**
@@ -42,11 +36,15 @@ public class RDSUtils {
     }
 
     private static String getAuthToken() {
+        RdsClient rdsClient = RdsClient.builder()
+                .region(REGION_NAME)
+                .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
+                .build();
 
         RdsUtilities utilities = rdsClient.utilities();
         try {
             GenerateAuthenticationTokenRequest tokenRequest = GenerateAuthenticationTokenRequest.builder()
-                    .credentialsProvider(ProfileCredentialsProvider.create())
+                    .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
                     .username(DB_USER)
                     .port(RDS_INSTANCE_PORT)
                     .hostname(dbInstanceIdentifier)
