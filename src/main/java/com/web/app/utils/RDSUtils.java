@@ -117,12 +117,12 @@ public class RDSUtils {
         PreparedStatement preparedStatement = null;
         try {
             connection = getDBConnectionUsingIam();
-            String sql = "DELETE FROM images WHERE key = ?";
+            String sql = "DELETE FROM `images` WHERE `key` = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, key);
             preparedStatement.execute();
         } catch (Exception e) {
-            return false;
+            throw new RuntimeException(e);
         }finally {
             try {
                 connection.close();
