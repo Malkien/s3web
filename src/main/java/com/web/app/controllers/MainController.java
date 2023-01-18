@@ -47,22 +47,11 @@ public class MainController {
     }
     @GetMapping("/files/delete/{fileKey:.+}")
     public String deleteFile(@PathVariable String fileKey, Model model, RedirectAttributes redirectAttributes) {
-        try {
-            boolean existed = S3Util.deleteFile(fileKey);
-
-            if (existed) {
-                redirectAttributes.addFlashAttribute("message", "Delete the file successfully");
-            } else {
-                redirectAttributes.addFlashAttribute("message", "The file does not exist!");
-            }
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("message",
-                    "Could not delete the file: " + fileKey + ". Error: " + e.getMessage());
-        }
+        S3Util.deleteFile(fileKey);
 
         return "redirect:/files";
     }
-    @GetMapping("/file/rename")
+    @GetMapping("/file/modify")
     public String renameFile(@RequestParam("key") String key, @RequestParam("newFile") MultipartFile image){
         S3Util.modifyFile(key, image);
         return "redirect:/files";
