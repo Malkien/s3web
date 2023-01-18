@@ -51,7 +51,7 @@ public class MainController {
         model.addAttribute("files", s3Objects);
         return "files";
     }
-    @GetMapping("/files/delete}")
+    @GetMapping("/files/delete")
     public String deleteFile(@PathVariable S3Object file, Model model, RedirectAttributes redirectAttributes) {
         try {
             boolean existed = S3Util.deleteFile(file);
