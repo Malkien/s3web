@@ -46,8 +46,8 @@ public class RDSUtils {
      */
     private static Properties setMySqlConnectionProperties() {
         Properties mysqlConnectionProperties = new Properties();
-        mysqlConnectionProperties.setProperty("verifyServerCertificate","true");
-        mysqlConnectionProperties.setProperty("useSSL", "true");
+        mysqlConnectionProperties.setProperty("verifyServerCertificate","false");
+        mysqlConnectionProperties.setProperty("useSSL", "false");
         mysqlConnectionProperties.setProperty("user",DB_USER);
         mysqlConnectionProperties.setProperty("password",getAuthToken());
         return mysqlConnectionProperties;
@@ -72,6 +72,7 @@ public class RDSUtils {
         }
         return "";
     }
+
     //////////////////////////////////////////////
 
 /*
