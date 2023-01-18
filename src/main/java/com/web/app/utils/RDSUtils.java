@@ -32,7 +32,7 @@ public class RDSUtils {
      * @throws Exception
      */
     private static Connection getDBConnectionUsingIam() throws Exception {
-        return DriverManager.getConnection(JDBC_URL, DB_USER, getAuthToken());
+        return DriverManager.getConnection(JDBC_URL, DB_USER, "admin1234");//getAuthToken());
     }
 
     private static String getAuthToken() {
