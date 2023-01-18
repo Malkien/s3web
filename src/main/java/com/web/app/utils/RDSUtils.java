@@ -18,7 +18,7 @@ public class RDSUtils {
     private static final String dbInstanceIdentifier = "my-ddbb-practice";
     private static final Region REGION_NAME = Region.EU_WEST_3;
     private static final String RDS_INSTANCE_HOSTNAME = "my-ddbb-practice.cger0yceks3s.eu-west-3.rds.amazonaws.com";
-    private static final String DB_USER = "admin";
+    private static final String DB_USER = "app";
     private static final String DATABASE = "images";
     private static final int RDS_INSTANCE_PORT = 3306;
     private static final String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT;
@@ -58,6 +58,8 @@ public class RDSUtils {
         }
         return "";
     }
+
+
 
     //////////////////////////////////////////////
 

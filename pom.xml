@@ -79,7 +79,12 @@
 			<artifactId>protocol-core</artifactId>
 			<version>2.19.17</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/protocol-core -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>aws-core</artifactId>
+			<version>2.19.17</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
