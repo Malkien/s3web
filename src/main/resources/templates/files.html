@@ -32,7 +32,7 @@
                         <td>[[${file.key}]]</td>
                         <td><a th:href="@{${file.key}}">Download</a></td>
                         <td>
-                            <a th:href="@{'/files/delete/' + ${file}}" th:file="${file}" id="btnDelete"
+                            <a th:href="@{'/files/delete/' + ${file.key}}" th:file="${file}" id="btnDelete"
                                title="Delete this file" class="fa-regular fa-trash-can icon-dark btn-delete"></a>
                         </td>
                     </tr>
