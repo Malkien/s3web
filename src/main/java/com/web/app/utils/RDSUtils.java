@@ -101,7 +101,7 @@ public class RDSUtils {
         PreparedStatement prepareStatement = null;
         try {
             connection = getDBConnectionUsingIam();
-            String sql = "INSERT INTO images(key, metadada) VALUES (?,?)";
+            String sql = "INSERT INTO "+DATABASE+" (key, metadada) VALUES (?,?)";
             prepareStatement = connection.prepareStatement(sql);
             prepareStatement.setString(1, key);
             prepareStatement.setBlob(2, file);
@@ -111,14 +111,15 @@ public class RDSUtils {
             throw new RuntimeException(e);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
+        }
+        /*finally {
             try {
                 connection.close();
                 prepareStatement.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        }
+        }*/
     }
 
     public static void close(Connection connection) {

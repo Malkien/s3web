@@ -20,6 +20,8 @@ public class S3Util {
 
     public static String uploadFile(String key, MultipartFile file) throws RuntimeException{
         try{
+            RDSUtils.insertData(key, file.getInputStream());
+
             PutObjectRequest objectRequest = PutObjectRequest.builder()
                     .bucket(BUCKET_NAME)
                     .key(key)
@@ -30,7 +32,6 @@ public class S3Util {
             // if you want to get all the metadata from the s3 object
             // HeadObjectRequest headObjectRequest= HeadObjectRequest.builder().bucket(BUCKET_NAME).key(key).build();
             // Map<String, String> headObjectResponse= s3.headObject(headObjectRequest).metadata();
-            RDSUtils.insertData(key, file.getInputStream());
             return "Image Upload";
 
         } catch (IOException e) {
