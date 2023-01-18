@@ -1,6 +1,8 @@
 package com.web.app.controllers;
 
 import com.web.app.utils.S3Util;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,9 +48,9 @@ public class MainController {
         return "files";
     }
     @GetMapping("/files/delete/{fileKey:.+}")
-    public String deleteFile(@PathVariable S3Object file, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteFile(@PathVariable String fileKey, Model model, RedirectAttributes redirectAttributes) {
         try {
-            boolean existed = S3Util.deleteFile(file);
+            boolean existed = S3Util.deleteFile(fileKey);
 
             if (existed) {
                 redirectAttributes.addFlashAttribute("message", "Delete the file successfully");
@@ -57,7 +59,7 @@ public class MainController {
             }
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message",
-                    "Could not delete the file: " + file.key() + ". Error: " + e.getMessage());
+                    "Could not delete the file: " + fileKey + ". Error: " + e.getMessage());
         }
 
         return "redirect:/files";

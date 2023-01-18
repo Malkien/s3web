@@ -46,14 +46,14 @@ public class S3Util {
         }
     }
 
-    public static boolean deleteFile(S3Object file){
+    public static boolean deleteFile(String key){
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
                 .bucket(BUCKET_NAME)
-                .key(file.key())
+                .key(key)
                 .build();
 
         s3.deleteObject(deleteObjectRequest);
-        if(!RDSUtils.delete(file.key())){
+        if(!RDSUtils.delete(key)){
             return false;
         }
         return true;
