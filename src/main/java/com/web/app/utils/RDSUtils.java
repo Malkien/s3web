@@ -1,6 +1,7 @@
 package com.web.app.utils;
 
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rds.RdsClient;
@@ -27,7 +28,7 @@ public class RDSUtils {
 
     private static RdsClient rdsClient = RdsClient.builder()
             .region(REGION_NAME)
-            .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+            .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
             .build();
 
 
@@ -37,21 +38,7 @@ public class RDSUtils {
      * @throws Exception
      */
     private static Connection getDBConnectionUsingIam() throws Exception {
-        return DriverManager.getConnection(JDBC_URL, setMySqlConnectionProperties());
-    }
-
-    /**
-     * This method sets the mysql connection properties which includes the IAM Database Authentication token
-     * as the password. It also specifies that SSL verification is required.
-     * @return
-     */
-    private static Properties setMySqlConnectionProperties() {
-        Properties mysqlConnectionProperties = new Properties();
-        mysqlConnectionProperties.setProperty("verifyServerCertificate","false");
-        mysqlConnectionProperties.setProperty("useSSL", "false");
-        mysqlConnectionProperties.setProperty("user",DB_USER);
-        mysqlConnectionProperties.setProperty("password",getAuthToken());
-        return mysqlConnectionProperties;
+        return DriverManager.getConnection(JDBC_URL, DB_USER, getAuthToken());
     }
 
     private static String getAuthToken() {
