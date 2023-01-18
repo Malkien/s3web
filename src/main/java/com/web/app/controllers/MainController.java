@@ -1,8 +1,6 @@
 package com.web.app.controllers;
 
 import com.web.app.utils.S3Util;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,16 +62,13 @@ public class MainController {
 
         return "redirect:/files";
     }
-    /*
-    @GetMapping("/files/{filename:.+}")
-    public ResponseEntity<Resource> getFile(@PathVariable String fileKey) {
-        Resource file = storageService.load(filename);
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
-    }*/
+    @GetMapping("/file/rename")
+    public String renameFile(@RequestParam("key") String key, @RequestParam("newFile") MultipartFile image){
+        S3Util.modifyFile(key, image);
+        return "redirect:/files";
+    }
     @GetMapping("/error")
-    public void error(){
-
+    public String error(){
+        return "/error";
     }
 }

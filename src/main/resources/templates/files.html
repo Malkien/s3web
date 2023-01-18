@@ -29,8 +29,17 @@
                     </thead>
                     <tbody>
                     <tr th:each="file : ${files}">
-                        <td><input type="text" name="">[[${file.key}]]</td>
-                        <td><a th:href="@{${file.key}}">Download</a></td>
+                        <form method="get" id="renameForm" th:action="@{files/rename}">
+                            <td>
+                                <a name="key">[[${file.key}]] </a>
+                            </td>
+                            <td>
+                                <input id="input-file" type="file" name="newFile">
+                            </td>
+                            <td>
+                                <button class="btn" type="submit">Rename</button>
+                            </td>
+                        </form>
                         <td>
                             <a th:href="@{'/files/delete/' + ${file.key}}" th:fileKey="${file.key}" id="btnDelete"
                                title="Delete this file" class="fa-regular fa-trash-can icon-dark btn-delete"></a>

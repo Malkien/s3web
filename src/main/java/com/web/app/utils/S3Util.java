@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -57,6 +58,16 @@ public class S3Util {
             return false;
         }
         return true;
+    }
+
+    public static boolean modifyFile(String key, MultipartFile file){
+        boolean delete = deleteFile(key);
+        String upload = uploadFile(key, file);
+        if(delete && !upload.isEmpty()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public static List<S3Object> listFile(){
