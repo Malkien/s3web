@@ -1,5 +1,6 @@
 package com.web.app.utils;
 
+import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rds.RdsClient;
@@ -26,6 +27,7 @@ public class RDSUtils {
 
     private static RdsClient rdsClient = RdsClient.builder()
             .region(REGION_NAME)
+            .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
             .build();
 
 
