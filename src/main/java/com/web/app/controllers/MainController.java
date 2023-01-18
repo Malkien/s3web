@@ -51,7 +51,7 @@ public class MainController {
         model.addAttribute("files", s3Objects);
         return "files";
     }
-    @GetMapping("/files/delete")
+    @GetMapping("/files/delete/{file:.+}")
     public String deleteFile(@PathVariable S3Object file, Model model, RedirectAttributes redirectAttributes) {
         try {
             boolean existed = S3Util.deleteFile(file);
@@ -76,4 +76,8 @@ public class MainController {
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }*/
+    @GetMapping("/error")
+    public void error(){
+
+    }
 }
