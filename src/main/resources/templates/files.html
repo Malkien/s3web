@@ -31,7 +31,7 @@
                             <td>
                                 <input th:field="*{key}" id="key" />
                                 <script type="text/javascript">
-                                  document.getElementById("key").setAttribute('value',"${file.key}");
+                                  document.getElementById("key").setAttribute('value',"[[${file.key}]]");
                                 </script>
                             </td>
                             <td>
