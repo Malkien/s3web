@@ -61,7 +61,7 @@ public class MainController {
     public String newFile(@ModelAttribute("params") Params params, @RequestParam("file") MultipartFile file, @RequestParam("key") String key){
         S3Util.modifyFile(key, file);
         //S3Util.modifyFile(params.getKey(), params().getImage());
-        return "files";
+        return "redirect:/files";
     }
 
 
