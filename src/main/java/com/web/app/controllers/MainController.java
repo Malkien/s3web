@@ -63,8 +63,4 @@ public class MainController {
         S3Util.modifyFile(params.getKey(), params().getImage());
         return "files";
     }
-    @GetMapping("/error")
-    public String error(){
-        return "/error";
-    }
 }
