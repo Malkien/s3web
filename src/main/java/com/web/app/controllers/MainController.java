@@ -55,7 +55,7 @@ public class MainController {
         return new Params();
     }
     @PostMapping("/files/modify")
-    public String renameFile(@ModelAttribute("modify") Params params){
+    public String renameFile(@ModelAttribute("params") Params params){
 
         S3Util.modifyFile(params.getKey(), params().getImage());
         return "files";
