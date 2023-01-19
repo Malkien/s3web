@@ -37,10 +37,16 @@ public class MainController {
         return "upload_form";
     }
 
+    @ModelAttribute("params")
+    public Params params(){
+        return new Params();
+    }
+
     @GetMapping("/files")
     public String getListFiles(Model model) {
         List<S3Object> s3Objects = S3Util.listFile();
         model.addAttribute("files", s3Objects);
+        model.addAttribute("params", new Params());
         return "files";
     }
     @GetMapping("/files/delete/{fileKey:.+}")
@@ -50,10 +56,7 @@ public class MainController {
         return "redirect:/files";
     }
 
-    @ModelAttribute("params")
-    public Params params(){
-        return new Params();
-    }
+
     @PostMapping("/files/modify")
     public String renameFile(@ModelAttribute("params") Params params){
 
