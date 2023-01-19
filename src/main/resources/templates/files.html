@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="file : ${files}">
-                        <form id="renameForm" th:action="@{/files/modify}" th:object="${params}" enctype="multipart/form-data" method="get">
+                        <form id="renameForm" action="#" th:action="@{/files/modify}" th:object="${params}" method="get">
                             <td>
                                 <input type="text" th:field="key" value="${file.key}" readonly/>
                             </td>
