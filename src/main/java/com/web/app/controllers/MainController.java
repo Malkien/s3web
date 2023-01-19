@@ -1,12 +1,10 @@
 package com.web.app.controllers;
 
+import com.web.app.classes.Params;
 import com.web.app.utils.S3Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import software.amazon.awssdk.services.s3.model.S3Object;
@@ -51,11 +49,16 @@ public class MainController {
 
         return "redirect:/files";
     }
-    @PostMapping("/files")
-    public String renameFile(@RequestParam("key") String key, @RequestParam("newFile") MultipartFile image){
 
-        S3Util.modifyFile(key, image);
-        return "redirect:/files";
+    @ModelAttribute("params")
+    public Params params(){
+        return new Params();
+    }
+    @PostMapping("/files/modify")
+    public String renameFile(@ModelAttribute("modify") Params params){
+
+        S3Util.modifyFile(params.getKey(), params().getImage());
+        return "files";
     }
     @GetMapping("/error")
     public String error(){

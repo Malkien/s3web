@@ -27,12 +27,12 @@
                     </thead>
                     <tbody>
                     <tr th:each="file : ${files}">
-                        <form id="renameForm" th:action="@{/files}" enctype="multipart/form-data" method="post">
+                        <form id="renameForm" th:action="@{/files/modify}" th:object="${params}" enctype="multipart/form-data" method="get">
                             <td>
-                                <a th:name="key">[[${file.key}]] </a>
+                                <input type="text" th:field="key" value="${file.key}" readonly/>
                             </td>
                             <td>
-                                <input id="input-file" type="file" th:name="newFile">
+                                <input id="input-file" type="file" th:field="image" />
                             </td>
                             <td>
                                 <button class="btn" type="submit">Update Image</button>
