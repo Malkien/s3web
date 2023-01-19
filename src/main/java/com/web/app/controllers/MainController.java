@@ -51,7 +51,7 @@ public class MainController {
 
         return "redirect:/files";
     }
-    @GetMapping("/files/modify")
+    @PostMapping("/files")
     public String renameFile(@RequestParam("key") String key, @RequestParam("newFile") MultipartFile image){
 
         S3Util.modifyFile(key, image);

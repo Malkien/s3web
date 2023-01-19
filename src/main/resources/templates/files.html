@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="file : ${files}">
-                        <form id="renameForm" th:action="@{/files/modify}" enctype="multipart/form-data" method="get">
+                        <form id="renameForm" th:action="@{/files}" enctype="multipart/form-data" method="post">
                             <td>
                                 <a th:name="key">[[${file.key}]] </a>
                             </td>
