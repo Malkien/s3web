@@ -27,9 +27,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="file : ${files}">
-                        <form id="renameForm" action="#" th:action="@{/files/modify}" th:object="${params}" method="get">
+                        <form id="renameForm" action="#" th:action="@{/files}" th:object="${params}" method="post">
                             <td>
-                                <input type="text" th:field="*{key}" value="${file.key}" readonly/>
+                                <input type="text" th:field="*{key}" value="${file.key}" readonly>[[${file.key}]] </input>
                             </td>
                             <td>
                                 <input id="input-file" type="file" th:field="*{image}" />
