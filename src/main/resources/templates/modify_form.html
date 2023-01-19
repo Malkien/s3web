@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0" />
+  <title>S3 practice</title>
+</head>
+
+<body>
+<div th:replace="fragments/header :: header"></div>
+
+<div class="container" style="max-width: 500px">
+  <h3 class="mb-3">Thymeleaf File Upload example</h3>
+
+  <form
+          id="uploadForm"
+          method="post"
+          th:action="@{/files/modify}"
+          enctype="multipart/form-data">
+    <input id="input-file" type="file" name="file" />
+    <button class="btn btn-sm btn-outline-success float-right" type="submit">
+      Modify
+    </button>
+  </form>
+</div>
+
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>

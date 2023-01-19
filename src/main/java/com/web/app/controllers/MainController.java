@@ -58,9 +58,33 @@ public class MainController {
 
 
     @PostMapping("/files")
-    public String renameFile(@ModelAttribute("params") Params params){
-
-        S3Util.modifyFile(params.getKey(), params().getImage());
+    public String newFile(@ModelAttribute("params") Params params, @RequestParam("file") MultipartFile file, @RequestParam("key") String key){
+        S3Util.modifyFile(key, file);
+        //S3Util.modifyFile(params.getKey(), params().getImage());
         return "files";
     }
+
+
+//////////////////////////////////////////////////////////////////
+
+    @GetMapping("files/modify/{fileKey:.+}")
+    public String modifyFile(Model model, @PathVariable String key){
+        model.addAttribute("key", key);
+        return "modify_form";
+    }
+    @PostMapping("/files/modify")
+    public String modifyFile(Model model,@PathVariable String key, @RequestParam("file") MultipartFile image){
+        String publicURL;
+        try{
+            publicURL = S3Util.uploadFile(image.getOriginalFilename(), image);
+            model.addAttribute("message", "Upload sucessful: "+publicURL);
+        } catch (RuntimeException e) {
+            model.addAttribute("message","Upload unsuccesfull\n"+e.getMessage());
+        } catch (Exception ex){
+
+            model.addAttribute("message","Upload unsuccesfull\n"+ex.getMessage());
+        }
+        return "upload_form";
+    }
+
 }
