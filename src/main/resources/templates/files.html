@@ -29,7 +29,7 @@
                     <tr th:each="file : ${files}">
                         <form id="renameForm" action="#" th:action="@{/files}" th:object="${params}" method="post" enctype="multipart/form-data">
                             <td>
-                                <a th:field="*{key}" value="${file.key}" th:with="*{key}=${file.key}">[[${file.key}]]</a>
+                                <a th:field="*{key}" value="${file.key}" th:with="${params.key}=${file.key}">[[${file.key}]]</a>
                             </td>
                             <td>
                                 <input id="input-file" type="file" th:field="*{image}" />
