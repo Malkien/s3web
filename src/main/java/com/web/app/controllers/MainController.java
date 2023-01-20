@@ -11,17 +11,36 @@ import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.util.List;
 
-
+/**
+ * Main controller
+ */
 @Controller
 public class MainController {
+    /**
+     * Redirect to files
+     * @return
+     */
     @GetMapping("/")
     public String showIndex(){
         return "redirect:/files";
     }
+
+    /**
+     * Load uploadform
+     * @param model the model
+     * @return the html
+     */
     @GetMapping("files/new")
     public String newFile(Model model){
         return "upload_form";
     }
+
+    /**
+     * Load the form action and redirect to the same html
+     * @param model the model
+     * @param image the image to upload
+     * @return the html
+     */
     @PostMapping("/files/upload")
     public String uploadFile(Model model, @RequestParam("file") MultipartFile image){
         String publicURL;
@@ -42,6 +61,11 @@ public class MainController {
         return new Params();
     }
 
+    /**
+     *  Load files
+     * @param model the model
+     * @return the html
+     */
     @GetMapping("/files")
     public String getListFiles(Model model) {
         List<S3Object> s3Objects = S3Util.listFile();
@@ -49,6 +73,14 @@ public class MainController {
         model.addAttribute("params", new Params());
         return "files";
     }
+
+    /**
+     * Load the action delete
+     * @param fileKey the key to delete
+     * @param model the model
+     * @param redirectAttributes the redictAttributes
+     * @return redirect to files
+     */
     @GetMapping("/files/delete/{fileKey:.+}")
     public String deleteFile(@PathVariable String fileKey, Model model, RedirectAttributes redirectAttributes) {
         S3Util.deleteFile(fileKey);
@@ -56,35 +88,18 @@ public class MainController {
         return "redirect:/files";
     }
 
-
+    /**
+     * Load the action form to modify a image
+     * @param params the params
+     * @param file the file
+     * @param key the key
+     * @return redirect to files
+     */
     @PostMapping("/files")
     public String newFile(@ModelAttribute("params") Params params, @RequestParam("file") MultipartFile file, @RequestParam("key") String key){
         S3Util.modifyFile(key, file);
-        //S3Util.modifyFile(params.getKey(), params().getImage());
         return "redirect:/files";
     }
 
-
-//////////////////////////////////////////////////////////////////
-
-    @GetMapping("files/modify/{fileKey:.+}")
-    public String modifyFile(Model model, @PathVariable String key){
-        model.addAttribute("key", key);
-        return "modify_form";
-    }
-    @PostMapping("/files/modify")
-    public String modifyFile(Model model,@PathVariable String key, @RequestParam("file") MultipartFile image){
-        String publicURL;
-        try{
-            publicURL = S3Util.uploadFile(image.getOriginalFilename(), image);
-            model.addAttribute("message", "Upload sucessful: "+publicURL);
-        } catch (RuntimeException e) {
-            model.addAttribute("message","Upload unsuccesfull\n"+e.getMessage());
-        } catch (Exception ex){
-
-            model.addAttribute("message","Upload unsuccesfull\n"+ex.getMessage());
-        }
-        return "upload_form";
-    }
 
 }

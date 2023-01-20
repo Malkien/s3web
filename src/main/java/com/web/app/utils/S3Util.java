@@ -1,5 +1,6 @@
 package com.web.app.utils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
@@ -16,10 +17,21 @@ import java.util.Map;
 
 @Service
 public class S3Util {
-    private static final String BUCKET_NAME = "my-bucket-practice";
+    @Value("${bucket.name")
+    private static String BUCKET_NAME;
+    /**
+     * CLIENT used to access the bucket
+     */
     private static final S3Client s3= S3Client.builder().credentialsProvider(InstanceProfileCredentialsProvider.builder().build()).build();
     //private static final S3TransferManager transferManager = S3TransferManager.create();
 
+    /**
+     * Insert the iamge metadata in a database and upload the image to the bucket
+     * @param key key od the object
+     * @param file the image
+     * @return MEssage String if all went ok
+     * @throws RuntimeException
+     */
     public static String uploadFile(String key, MultipartFile file) throws RuntimeException{
         try{
 
@@ -47,6 +59,11 @@ public class S3Util {
         }
     }
 
+    /**
+     * delete the object in the bucket by the key is provided
+     * @param key the key
+     * @return is all ok true if error false
+     */
     public static boolean deleteFile(String key){
         DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
                 .bucket(BUCKET_NAME)
@@ -60,6 +77,12 @@ public class S3Util {
         return true;
     }
 
+    /**
+     * Modify the image of the object by key (To do this you need to delete and create a new object in bucket because you can't modify an object when is upload)
+     * @param key the key
+     * @param file the new image
+     * @return true if all  ok false if error
+     */
     public static boolean modifyFile(String key, MultipartFile file){
         boolean delete = deleteFile(key);
         String upload = uploadFile(key, file);
@@ -70,6 +93,10 @@ public class S3Util {
         }
     }
 
+    /**
+     * Get a list of al the object in the bucket
+     * @return the list of S3Objects
+     */
     public static List<S3Object> listFile(){
         try{
             ListObjectsRequest listObjects = ListObjectsRequest

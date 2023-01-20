@@ -1,5 +1,8 @@
 package com.web.app.utils;
 
+import com.web.app.classes.DBConfiguration;
+import com.web.app.classes.Database;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.rds.RdsClient;
@@ -13,7 +16,7 @@ import java.util.Map;
 
 public class RDSUtils {
 
-
+/*
     private String url;
     private static RDSUtils instance;
     private static final String dbInstanceIdentifier = "my-ddbb-practice";
@@ -24,7 +27,8 @@ public class RDSUtils {
     private static final int RDS_INSTANCE_PORT = 3306;
     private static final String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/" + DATABASE;
 
-
+ */
+    private static final Database database = new DBConfiguration().getDatabase();
 
 
     /**
@@ -33,12 +37,12 @@ public class RDSUtils {
      * @throws Exception
      */
     private static Connection getDBConnectionUsingIam() throws Exception {
-        return DriverManager.getConnection(JDBC_URL, DB_USER, "admin1234");//getAuthToken());
+        return DriverManager.getConnection(database.getJDBC_URL(),database.getDB_USER(),database.getPassword());//getAuthToken());
     }
 
     private static String getAuthToken() {
         RdsClient rdsClient = RdsClient.builder()
-                .region(REGION_NAME)
+                .region(Region.of(database.getREGION_NAME()))
                 .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
                 .build();
 
@@ -46,9 +50,9 @@ public class RDSUtils {
         try {
             GenerateAuthenticationTokenRequest tokenRequest = GenerateAuthenticationTokenRequest.builder()
                     .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
-                    .username(DB_USER)
-                    .port(RDS_INSTANCE_PORT)
-                    .hostname(dbInstanceIdentifier)
+                    .username(database.getDB_USER())
+                    .port(database.getRDS_INSTANCE_PORT())
+                    .hostname(database.getDbInstanceIdentifier())
                     .build();
 
             return utilities.generateAuthenticationToken(tokenRequest);
@@ -91,7 +95,7 @@ public class RDSUtils {
         PreparedStatement prepareStatement = null;
         try {
             connection = getDBConnectionUsingIam();
-            String sql = "INSERT INTO `"+DATABASE+"` VALUES (?,?)";
+            String sql = "INSERT INTO `"+database.getDATABASE()+"` VALUES (?,?)";
             prepareStatement = connection.prepareStatement(sql);
             prepareStatement.setString(1, key);
             prepareStatement.setBlob(2, file);
