@@ -28,7 +28,7 @@ public class RDSUtils {
     private static final String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/" + DATABASE;
 
  */
-    private static final Database database = new DBConfiguration().getDatabase();
+    private static final Database database = new AnnotationConfigApplicationContext().getBean(DBConfiguration.class).getDatabase();
 
 
     /**
