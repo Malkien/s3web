@@ -20,7 +20,7 @@ import java.util.Map;
 @Service
 @PropertySource("classpath:application.properties")
 public class S3Util {
-    
+
     private static String BUCKET_NAME;
     /**
      * CLIENT used to access the bucket
@@ -28,7 +28,7 @@ public class S3Util {
     private static final S3Client s3= S3Client.builder().credentialsProvider(InstanceProfileCredentialsProvider.builder().build()).build();
     //private static final S3TransferManager transferManager = S3TransferManager.create();
 
-    public S3Util(@Value("${bucket.name") String name){
+    public S3Util(@Value("${bucket.name}") String name){
         BUCKET_NAME = name;
     }
 
