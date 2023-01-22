@@ -2,6 +2,7 @@ package com.web.app.utils;
 
 import com.web.app.classes.Database;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -28,9 +29,31 @@ public class RDSUtils {
     private static final String JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/" + DATABASE;
 
  */
-    @Autowired
-    private static Database database;
+    private static String dbInstanceIdentifier;
+    private static String REGION_NAME;
+    private static String RDS_INSTANCE_HOSTNAME;
+    private static String DB_USER;
+    private static String DATABASE;
+    private static int RDS_INSTANCE_PORT;
+    private static String PASSWORD;
+    private static String JDBC_URL;
 
+    public RDSUtils(@Value("${RDS_INSTANCE_ID}") String id,
+                    @Value("${RDS_REGION_NAME}") String region,
+                    @Value("${RDS_INSTANCE_HOSTNAME}") String hostname,
+                    @Value("${RDS_DB_USER}") String user,
+                    @Value("${RDS_PASSWORD}") String pass,
+                    @Value("${RDS_DATABASE}") String database,
+                    @Value("${RDS_INSTANCE_PORT}") int port) {
+        dbInstanceIdentifier = id;
+        REGION_NAME = region;
+        RDS_INSTANCE_HOSTNAME = hostname;
+        DB_USER = user;
+        DATABASE = database;
+        RDS_INSTANCE_PORT = port;
+        PASSWORD = pass;
+        JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/" + DATABASE;
+    }
 
     /**
      * This method returns a connection to the db instance authenticated using IAM Database Authentication
@@ -38,12 +61,12 @@ public class RDSUtils {
      * @throws Exception
      */
     private static Connection getDBConnectionUsingIam() throws Exception {
-        return DriverManager.getConnection(database.getJDBC_URL(),database.getDB_USER(),database.getPassword());//getAuthToken());
+        return DriverManager.getConnection(JDBC_URL,DB_USER,PASSWORD);//getAuthToken());
     }
 
     private static String getAuthToken() {
         RdsClient rdsClient = RdsClient.builder()
-                .region(Region.of(database.getREGION_NAME()))
+                .region(Region.of(REGION_NAME))
                 .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
                 .build();
 
@@ -51,9 +74,9 @@ public class RDSUtils {
         try {
             GenerateAuthenticationTokenRequest tokenRequest = GenerateAuthenticationTokenRequest.builder()
                     .credentialsProvider(InstanceProfileCredentialsProvider.builder().build())
-                    .username(database.getDB_USER())
-                    .port(database.getRDS_INSTANCE_PORT())
-                    .hostname(database.getDbInstanceIdentifier())
+                    .username(DB_USER)
+                    .port(RDS_INSTANCE_PORT)
+                    .hostname(dbInstanceIdentifier)
                     .build();
 
             return utilities.generateAuthenticationToken(tokenRequest);
@@ -96,7 +119,7 @@ public class RDSUtils {
         PreparedStatement prepareStatement = null;
         try {
             connection = getDBConnectionUsingIam();
-            String sql = "INSERT INTO `"+database.getDATABASE()+"` VALUES (?,?)";
+            String sql = "INSERT INTO `"+DATABASE+"` VALUES (?,?)";
             prepareStatement = connection.prepareStatement(sql);
             prepareStatement.setString(1, key);
             prepareStatement.setBlob(2, file);
@@ -122,7 +145,7 @@ public class RDSUtils {
         PreparedStatement preparedStatement = null;
         try {
             connection = getDBConnectionUsingIam();
-            String sql = "DELETE FROM `images` WHERE `key` = ?";
+            String sql = "DELETE FROM `"+DATABASE+"` WHERE `key` = ?";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, key);
             preparedStatement.execute();
