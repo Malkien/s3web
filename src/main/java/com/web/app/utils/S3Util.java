@@ -20,13 +20,17 @@ import java.util.Map;
 @Service
 @PropertySource("classpath:application.properties")
 public class S3Util {
-    @Value("${bucket.name")
+    
     private static String BUCKET_NAME;
     /**
      * CLIENT used to access the bucket
      */
     private static final S3Client s3= S3Client.builder().credentialsProvider(InstanceProfileCredentialsProvider.builder().build()).build();
     //private static final S3TransferManager transferManager = S3TransferManager.create();
+
+    public S3Util(@Value("${bucket.name") String name){
+        BUCKET_NAME = name;
+    }
 
     /**
      * Insert the iamge metadata in a database and upload the image to the bucket
