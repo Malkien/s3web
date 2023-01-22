@@ -1,6 +1,8 @@
 package com.web.app.utils;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class S3Util {
     @Value("${bucket.name")
     private static String BUCKET_NAME;

@@ -9,7 +9,7 @@ public class AppApplication {
 	Environment env;
 	public static void main(String[] args) {
 		SpringApplication.run(AppApplication.class, args);
-		
+
 	}
 
 }
