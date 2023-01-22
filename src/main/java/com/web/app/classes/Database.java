@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-
 public class Database {
     @Value("${RDS_INSTANCE_ID}")
     private String dbInstanceIdentifier;
@@ -25,7 +24,20 @@ public class Database {
     private String password;
     private String JDBC_URL;
 
-    public Database() {
+    public Database(@Value("${RDS_INSTANCE_ID}") String id, 
+                    @Value("${RDS_REGION_NAME}") String region,
+                    @Value("${RDS_INSTANCE_HOSTNAME}") String hostname,
+                    @Value("${RDS_DB_USER}") String user,
+                    @Value("${RDS_PASSWORD}") String password,
+                    @Value("${RDS_DATABASE}") String database,
+                    @Value("${RDS_INSTANCE_PORT}") int port) {
+        this.dbInstanceIdentifier = id;
+        this.REGION_NAME = region;
+        this.RDS_INSTANCE_HOSTNAME = hostname;
+        this.DB_USER = user;
+        this.DATABASE = database;
+        this.RDS_INSTANCE_PORT = port;
+        this.password = password;
         this.JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/" + DATABASE;
     }
 

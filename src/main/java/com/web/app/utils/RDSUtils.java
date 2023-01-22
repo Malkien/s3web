@@ -1,10 +1,7 @@
 package com.web.app.utils;
 
-import com.web.app.classes.DBConfiguration;
 import com.web.app.classes.Database;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -15,7 +12,7 @@ import software.amazon.awssdk.services.rds.model.RdsException;
 
 import java.io.InputStream;
 import java.sql.*;
-import java.util.Map;
+
 @Service
 public class RDSUtils {
 
