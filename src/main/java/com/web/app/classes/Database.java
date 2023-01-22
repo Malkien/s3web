@@ -1,6 +1,12 @@
 package com.web.app.classes;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
+
+@Configuration
+@PropertySource("classpath:application.properties")
 
 public class Database {
     @Value("${RDS_INSTANCE_ID}")
@@ -20,6 +26,7 @@ public class Database {
     private String JDBC_URL;
 
     public Database() {
+        this.JDBC_URL = "jdbc:mysql://" + RDS_INSTANCE_HOSTNAME + ":" + RDS_INSTANCE_PORT + "/" + DATABASE;
     }
 
     public String getDbInstanceIdentifier() {
@@ -46,11 +53,11 @@ public class Database {
         return RDS_INSTANCE_PORT;
     }
 
-    public String getJDBC_URL() {
-        return JDBC_URL;
-    }
-
     public String getPassword() {
         return password;
+    }
+
+    public String getJDBC_URL() {
+        return JDBC_URL;
     }
 }

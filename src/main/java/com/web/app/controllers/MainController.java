@@ -56,11 +56,6 @@ public class MainController {
         return "upload_form";
     }
 
-    @ModelAttribute("params")
-    public Params params(){
-        return new Params();
-    }
-
     /**
      *  Load files
      * @param model the model
@@ -70,7 +65,6 @@ public class MainController {
     public String getListFiles(Model model) {
         List<S3Object> s3Objects = S3Util.listFile();
         model.addAttribute("files", s3Objects);
-        model.addAttribute("params", new Params());
         return "files";
     }
 
@@ -90,13 +84,12 @@ public class MainController {
 
     /**
      * Load the action form to modify a image
-     * @param params the params
      * @param file the file
      * @param key the key
      * @return redirect to files
      */
     @PostMapping("/files")
-    public String newFile(@ModelAttribute("params") Params params, @RequestParam("file") MultipartFile file, @RequestParam("key") String key){
+    public String newFile( @RequestParam("file") MultipartFile file, @RequestParam("key") String key){
         S3Util.modifyFile(key, file);
         return "redirect:/files";
     }

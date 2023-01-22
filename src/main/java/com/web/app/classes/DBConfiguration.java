@@ -7,7 +7,8 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:application.properties")
 public class DBConfiguration {
-    @Bean
+
+    @Bean(name="Database")
     public Database getDatabase(){
         return new Database();
     }
