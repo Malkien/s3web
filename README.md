@@ -1,4 +1,4 @@
-# AWS JAVA SPRING BOOT MAVEN WITH 
+# AWS JAVA SPRING BOOT MAVEN WITH AWS S3 and RDS
 
 ## DESCRIPTION
 This repository contain a bash script that administrate a workplay of Docker compose. And the diferent utilities of the script are:
