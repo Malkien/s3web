@@ -147,7 +147,7 @@ public class RDSUtils {
         PreparedStatement prepareStatement = null;
         try {
             connection = getDBConnectionUsingIam();
-            String sql = "UPDATE `"+DATABASE+"` SET `metadata` = `?` WHERE `key` = `?`";
+            String sql = "UPDATE `"+DATABASE+"` SET `metadata` =? WHERE `key` =?";
             prepareStatement = connection.prepareStatement(sql);
             prepareStatement.setBlob(1, file);
             prepareStatement.setString(2, key);
