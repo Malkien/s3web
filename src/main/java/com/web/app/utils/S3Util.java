@@ -1,13 +1,11 @@
 package com.web.app.utils;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
-import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -15,19 +13,23 @@ import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @PropertySource("classpath:application.properties")
 public class S3Util {
-
+    /**
+     * Contain the bucket name from Enviroment
+     */
     private static String BUCKET_NAME;
     /**
      * CLIENT used to access the bucket
      */
     private static final S3Client s3= S3Client.builder().credentialsProvider(InstanceProfileCredentialsProvider.builder().build()).build();
-    //private static final S3TransferManager transferManager = S3TransferManager.create();
 
+    /**
+     * Constructor that load the Bucket Name value
+     * @param name
+     */
     public S3Util(@Value("${bucket.name}") String name){
         BUCKET_NAME = name;
     }
@@ -49,20 +51,10 @@ public class S3Util {
                     .build();
 
             s3.putObject(objectRequest, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
-
-            //HeadObjectRequest headObjectRequest = HeadObjectRequest.builder()
-            //        .bucket(BUCKET_NAME)
-            //        .key(key)
-            //        .build();
-            //HeadObjectResponse headObjectResponse = s3.headObject(headObjectRequest);
-            //Map<String, String> metadata = headObjectResponse.metadata();
-            //RDSUtils.insertData(key, headObjectResponse.metadata());
             return "Image Upload";
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }finally {
-
         }
     }
 
@@ -94,7 +86,12 @@ public class S3Util {
         boolean delete = deleteFile(key);
         String upload = uploadFile(key, file);
         if(delete && !upload.isEmpty()){
-            return true;
+            try {
+                return RDSUtils.modify(key, file.getInputStream());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
         }else{
             return false;
         }

@@ -1,12 +1,10 @@
 package com.web.app.controllers;
 
-import com.web.app.classes.Params;
 import com.web.app.utils.S3Util;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.util.List;
@@ -71,12 +69,10 @@ public class MainController {
     /**
      * Load the action delete
      * @param fileKey the key to delete
-     * @param model the model
-     * @param redirectAttributes the redictAttributes
      * @return redirect to files
      */
     @GetMapping("/files/delete/{fileKey:.+}")
-    public String deleteFile(@PathVariable String fileKey, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteFile(@PathVariable String fileKey) {
         S3Util.deleteFile(fileKey);
 
         return "redirect:/files";
