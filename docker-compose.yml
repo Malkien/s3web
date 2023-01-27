@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+  mysql:
+    image: mysql:latest
+    container_name: ddbb_mysql
+    command: --init-file mysql/init.sql
+    volumes:
+      - ./mysql/init.sql:mysql/init.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${RDS_PASSWORD}
+      - MYSQL_DATABASE=${RDS_DATABASE}
+      - MYSQL_USER=${RDS_DB_USER}
+      - MYSQL_PASSWORD=${RDS_PASSWORD}
+    ports:
+      - "3306:3306"

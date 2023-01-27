@@ -1,28 +1,18 @@
 # AWS JAVA SPRING BOOT MAVEN WITH 
 
 ## DESCRIPTION
-This repository contain a bash script that administrate a workplay of Docker compose. And the diferent utilities of the script are:
-* Create a new empty directory.
-* Run one group or all the docker-compose in the workplace.
-* Shut down one or all the docker-compose in the workplace.
-* Display the version.
-* Display the script's information.
-Warning: when you run the script remmember that it take as directory you're in, or you can modify it to uso a specify absolute path(but it is you to modify it).
+
 
 ## Table of contents
 - [Analysis](#analisys)
     * [Tecnologies](#tecnologies)
-    * [Utilities](#utilities-it-should-have)
+    * [Utilities](#utilities)
+    * [Diagram](#Diagram)
 - [Desing](#desing)
-    * [Main](#1-the-main-of-the-script)
-    * [Help](#2-the-help-function-that-display-the-utilities-of-the-script)
-    * [Version](#3-the-version-function-that-display-the-version)
-    * [Create](#4-the-create-function-that-create-the-repository)
-    * [Up-Down](#5-the-funtion-context_op)
 - [Credits](#credits)
 
 ## Analysis
-## Tecnologies
+### Tecnologies
 This project require:
 * Apache Maven 3.6.3.
 * Java 17.
@@ -36,13 +26,13 @@ This project require:
   * RDS.
 * Enviroment variables.
 
-## Utilities
+### Utilities
 1. The web should load the S3 object in the target S3 bucket and show them.
 2. The web should upload images in the S3 bucket and the RDS with MY SQL.
 3. The web should modify the S3 Object bucket and RDS table.
 4. The web sould delete the S3 Object and RDS table.
 
-## Diagram
+### Diagram
 <img src="diagrams/SpringWebDiagram.png" alt="Funtionality" title="Funtionality">
 
 ## Design
