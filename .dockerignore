@@ -1,0 +1,8 @@
+Dockerfile
+.git
+.mvn
+.idea
+mysql
+docker-compose.yml
+README.md
+diagrams
